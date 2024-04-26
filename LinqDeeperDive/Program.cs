@@ -1,15 +1,18 @@
 ﻿using System.Collections;
 using System.Diagnostics;
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Running;
 
 BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args);
 
 [MemoryDiagnoser]
-[ShortRunJob]
+[ShortRunJob(RuntimeMoniker.Net70)]
+[ShortRunJob(RuntimeMoniker.Net80)]
+// [ShortRunJob(RuntimeMoniker.Net90)]
 public class Tests
 {
-    private IEnumerable<int> source = Enumerable.Range(0, 1000).ToArray();
+    private IEnumerable<int> source = Enumerable.Range(0, 10000).ToArray();
 
     [Benchmark]
     public int SumCompiler()
